@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "moviepb/";
+
+message MovieDetails {
+    string id = 1;
+    string movie_name = 2;
+    string genre = 3;
+    string description = 4;
+    float ratings = 5; 
+}
+
+enum MovieStatus {
+    CREATED = 0;
+    UPDATED = 1;
+    FAILED = 2;
+    DUPLICATE_ENTRY = 3;
+}

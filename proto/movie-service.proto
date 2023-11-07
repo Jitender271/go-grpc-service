@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "moviepb/";
+import "proto/movie.proto";
+
+message MovieRequest{
+    string movie = 1;
+    string genre = 2;
+    string desc = 3;
+    float rating = 4;
+}
+
+message MovieResponse{
+    MovieDetails movieDetails = 1;
+    MovieStatus status = 2;
+}
+
+service MoviePlatform{
+    rpc CreateMovie(MovieRequest) returns (MovieResponse);
+
+}
