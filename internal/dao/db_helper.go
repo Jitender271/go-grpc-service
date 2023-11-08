@@ -21,6 +21,7 @@ const (
 
 func getTable(tableName string, cols, partitionKeys, sortKeys []string) db.Table{
 	tableMeta := table.Metadata{
+		Name: tableName,
 		Columns: cols,
 		PartKey: partitionKeys,
 		SortKey: sortKeys,

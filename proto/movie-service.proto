@@ -7,7 +7,7 @@ message MovieRequest{
     string movie = 1;
     string genre = 2;
     string desc = 3;
-    float rating = 4;
+    string rating = 4;
 }
 
 message MovieResponse{

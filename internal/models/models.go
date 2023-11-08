@@ -5,5 +5,5 @@ type Movie struct{
 	Name	string
 	Genre	string
 	Desc	string
-	Rating  float32
+	Rating  string
 }

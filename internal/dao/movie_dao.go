@@ -9,6 +9,7 @@ import (
 	daomodels "github.com/go-grpc-service/internal/dao/dao_models"
 	"github.com/go-grpc-service/internal/db"
 	"github.com/go-grpc-service/internal/models"
+	"github.com/gocql/gocql"
 )
 
 var (initSync sync.Once
@@ -35,6 +36,7 @@ func NewMovieDaoImpl(dbConfigs config.DbConfigs) MovieDao{
 }
 
 func (dao *MovieImpl) InsertMovie(ctx context.Context, req *models.Movie)(*models.Movie, error) {
+	req.Id = gocql.TimeUUID().String()
 
 	daoMovie := convertToDaoMovie(req)
 	if err := insertMoviesInDb(ctx, dao.SessionWrapper, daoMovie); err != nil {
@@ -46,6 +48,7 @@ func (dao *MovieImpl) InsertMovie(ctx context.Context, req *models.Movie)(*model
 func convertToDaoMovie(req *models.Movie) *daomodels.Movies{
 
 	return &daomodels.Movies{
+		MovieID: req.Id,
 		Name: req.Name,
 		Genre:  req.Genre,
 		Description:  req.Desc,

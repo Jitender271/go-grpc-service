@@ -1,13 +1,11 @@
 package daomodels
 
-import (
-	"github.com/gocql/gocql"
-)
+
 
 type Movies struct {
-	MovieID    gocql.UUID	`db:"moveie_id"`
+	MovieID    string		`db:"movie_id"`
 	Name       string		`db:"name"`
 	Genre      string		`db:"genre"`
 	Description string		`db:"description"`
-	Rating     float32		`db:"rating"`
+	Rating     string		`db:"rating"`
 }

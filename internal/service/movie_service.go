@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"errors"
+
 	"fmt"
 
 	"github.com/go-grpc-service/internal/config"
@@ -29,7 +29,7 @@ func (m *MovieServiceImpl) CreateMovie(ctx context.Context, request *moviepb.Mov
 	fmt.Print("reaching")
 	movie , err := m.movieDao.InsertMovie(ctx, getMovieModel(request))
 	if err != nil {
-		return nil, errors.New("not able to insert in db")
+		return nil, err
 	}
 	fmt.Print("movie", movie)
 	return movie, nil
@@ -41,7 +41,7 @@ func getMovieModel(request *moviepb.MovieRequest) *models.Movie{
 		Name: request.GetMovie(),
 		Desc: request.GetDesc(),
 		Genre: request.GetGenre(),
-		Rating: float32(request.GetRating()),
+		Rating: request.GetRating(),
 	}
 
 }
