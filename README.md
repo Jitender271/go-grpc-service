@@ -23,7 +23,6 @@ This repository contains a microservice written in Go that utilizes gRPC for com
    go mod tidy
 
 3. Compile Protocol Buffers:
-  ```bash
   protoc --go_out=. --go-grpc_out=. proto/movie.proto
 
 
