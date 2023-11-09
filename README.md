@@ -29,32 +29,36 @@ This repository contains a microservice written in Go that utilizes gRPC for com
 ## ScyllaDB Configuration
 
 1. Connect to your ScyllaDB instance(on Docker) and create the keyspace:
- ```bash
-  CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};```
+   
+  CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 
 2. Create the "movies" table:
-  ```bash
+   
    CREATE TABLE IF NOT EXISTS movies (
     movie_id TEXT PRIMARY KEY,
     name TEXT,
     genre TEXT,
     description TEXT,
     rating TEXT,
-    );```
+    );
 
 ## Running the Service
-```bash
+
 go build
+
 go run main.go
 
 ## Usage
+
 Use a gRPC client to interact with the service. See the proto/movie.proto file for service definition.
 
 ## Contributing
+
 Feel free to contribute by opening issues or creating pull requests.
 
 ## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 
