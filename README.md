@@ -23,16 +23,17 @@ This repository contains a microservice written in Go that utilizes gRPC for com
    go mod tidy
 
 3. Compile Protocol Buffers:
-  ``bash
+  ```bash
   protoc --go_out=. --go-grpc_out=. proto/movie.proto
 
 
 ## ScyllaDB Configuration
 1. Connect to your ScyllaDB instance(on Docker) and create the keyspace:
-   
-CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+ ```bash
+  CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 2. Create the "movies" table:
+  ```bash
    CREATE TABLE IF NOT EXISTS movies (
     movie_id TEXT PRIMARY KEY,
     name TEXT,
@@ -42,6 +43,7 @@ CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStr
     );
 
 ## Running the Service
+```bash
 go build
 go run main.go
 
