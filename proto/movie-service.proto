@@ -7,7 +7,7 @@ message MovieRequest{
     string movie = 1;
     string genre = 2;
     string desc = 3;
-    float rating = 4;
+    string rating = 4;
 }
 
 message MovieResponse{
@@ -15,7 +15,37 @@ message MovieResponse{
     MovieStatus status = 2;
 }
 
+message GetMovieRequest{
+    string movie = 1;
+}
+
+message GetMovieResponse{
+    MovieDetails movieDetails = 1;
+}
+
+message GetAllMoviesRequest{
+   string movies = 1;
+}
+
+message GetAllMoviesResponse{
+   repeated MovieDetails movieDetails = 1;
+}
+
+message UpdateMovieRequest{
+    string movie = 1;
+    string genre = 2;
+    string desc = 3;
+    string rating = 4;
+}
+
+message UpdateMovieResponse{
+    MovieDetails movieDetails = 1;
+    MovieStatus status = 2;
+}
+
 service MoviePlatform{
     rpc CreateMovie(MovieRequest) returns (MovieResponse);
-
+    rpc GetMovie(GetMovieRequest) returns (GetMovieResponse);
+    rpc GetAllMovies(GetAllMoviesRequest) returns (GetAllMoviesResponse);
+    rpc UpdateMovie(UpdateMovieRequest) returns (UpdateMovieResponse);
 }

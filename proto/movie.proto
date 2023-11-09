@@ -7,7 +7,7 @@ message MovieDetails {
     string movie_name = 2;
     string genre = 3;
     string description = 4;
-    float ratings = 5; 
+    string ratings = 5;
 }
 
 enum MovieStatus {

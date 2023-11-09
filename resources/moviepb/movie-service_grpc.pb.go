@@ -23,6 +23,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MoviePlatformClient interface {
 	CreateMovie(ctx context.Context, in *MovieRequest, opts ...grpc.CallOption) (*MovieResponse, error)
+	GetMovie(ctx context.Context, in *GetMovieRequest, opts ...grpc.CallOption) (*GetMovieResponse, error)
+	GetAllMovies(ctx context.Context, in *GetAllMoviesRequest, opts ...grpc.CallOption) (*GetAllMoviesResponse, error)
+	UpdateMovie(ctx context.Context, in *UpdateMovieRequest, opts ...grpc.CallOption) (*UpdateMovieResponse, error)
 }
 
 type moviePlatformClient struct {
@@ -42,11 +45,41 @@ func (c *moviePlatformClient) CreateMovie(ctx context.Context, in *MovieRequest,
 	return out, nil
 }
 
+func (c *moviePlatformClient) GetMovie(ctx context.Context, in *GetMovieRequest, opts ...grpc.CallOption) (*GetMovieResponse, error) {
+	out := new(GetMovieResponse)
+	err := c.cc.Invoke(ctx, "/MoviePlatform/GetMovie", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moviePlatformClient) GetAllMovies(ctx context.Context, in *GetAllMoviesRequest, opts ...grpc.CallOption) (*GetAllMoviesResponse, error) {
+	out := new(GetAllMoviesResponse)
+	err := c.cc.Invoke(ctx, "/MoviePlatform/GetAllMovies", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *moviePlatformClient) UpdateMovie(ctx context.Context, in *UpdateMovieRequest, opts ...grpc.CallOption) (*UpdateMovieResponse, error) {
+	out := new(UpdateMovieResponse)
+	err := c.cc.Invoke(ctx, "/MoviePlatform/UpdateMovie", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MoviePlatformServer is the server API for MoviePlatform service.
 // All implementations must embed UnimplementedMoviePlatformServer
 // for forward compatibility
 type MoviePlatformServer interface {
 	CreateMovie(context.Context, *MovieRequest) (*MovieResponse, error)
+	GetMovie(context.Context, *GetMovieRequest) (*GetMovieResponse, error)
+	GetAllMovies(context.Context, *GetAllMoviesRequest) (*GetAllMoviesResponse, error)
+	UpdateMovie(context.Context, *UpdateMovieRequest) (*UpdateMovieResponse, error)
 	mustEmbedUnimplementedMoviePlatformServer()
 }
 
@@ -56,6 +89,15 @@ type UnimplementedMoviePlatformServer struct {
 
 func (UnimplementedMoviePlatformServer) CreateMovie(context.Context, *MovieRequest) (*MovieResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMovie not implemented")
+}
+func (UnimplementedMoviePlatformServer) GetMovie(context.Context, *GetMovieRequest) (*GetMovieResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMovie not implemented")
+}
+func (UnimplementedMoviePlatformServer) GetAllMovies(context.Context, *GetAllMoviesRequest) (*GetAllMoviesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllMovies not implemented")
+}
+func (UnimplementedMoviePlatformServer) UpdateMovie(context.Context, *UpdateMovieRequest) (*UpdateMovieResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMovie not implemented")
 }
 func (UnimplementedMoviePlatformServer) mustEmbedUnimplementedMoviePlatformServer() {}
 
@@ -88,6 +130,60 @@ func _MoviePlatform_CreateMovie_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MoviePlatform_GetMovie_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMovieRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MoviePlatformServer).GetMovie(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MoviePlatform/GetMovie",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MoviePlatformServer).GetMovie(ctx, req.(*GetMovieRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MoviePlatform_GetAllMovies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllMoviesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MoviePlatformServer).GetAllMovies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MoviePlatform/GetAllMovies",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MoviePlatformServer).GetAllMovies(ctx, req.(*GetAllMoviesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MoviePlatform_UpdateMovie_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMovieRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MoviePlatformServer).UpdateMovie(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MoviePlatform/UpdateMovie",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MoviePlatformServer).UpdateMovie(ctx, req.(*UpdateMovieRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MoviePlatform_ServiceDesc is the grpc.ServiceDesc for MoviePlatform service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +194,18 @@ var MoviePlatform_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateMovie",
 			Handler:    _MoviePlatform_CreateMovie_Handler,
+		},
+		{
+			MethodName: "GetMovie",
+			Handler:    _MoviePlatform_GetMovie_Handler,
+		},
+		{
+			MethodName: "GetAllMovies",
+			Handler:    _MoviePlatform_GetAllMovies_Handler,
+		},
+		{
+			MethodName: "UpdateMovie",
+			Handler:    _MoviePlatform_UpdateMovie_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
