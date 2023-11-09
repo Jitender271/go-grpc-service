@@ -30,7 +30,7 @@ This repository contains a microservice written in Go that utilizes gRPC for com
 
 1. Connect to your ScyllaDB instance(on Docker) and create the keyspace:
  ```bash
-  CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+  CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};```
 
 
 2. Create the "movies" table:
@@ -41,7 +41,7 @@ This repository contains a microservice written in Go that utilizes gRPC for com
     genre TEXT,
     description TEXT,
     rating TEXT,
-    );
+    );```
 
 ## Running the Service
 ```bash
