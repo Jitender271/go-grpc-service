@@ -1,15 +1,21 @@
 package grpc
 
 import (
-	"fmt"
-	"github.com/go-grpc-service/internal/grpc/interceptor"
-	"log"
-	"net"
-
 	"github.com/go-grpc-service/internal/config"
+	"github.com/go-grpc-service/internal/grpc/interceptor"
+	log2 "github.com/go-grpc-service/internal/log"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	healthv1 "google.golang.org/grpc/health/grpc_health_v1"
+	"net"
+)
+
+const (
+	tcp               = "tcp"
+	grpcHealthService = "health-service-grpc"
+	moviePlatform     = "movie-platform"
+	port              = "port"
 )
 
 type Server struct {
@@ -34,15 +40,15 @@ func NewServer(config *config.AppConfig) *Server {
 }
 
 func (s *Server) Start() {
-	listener, err := net.Listen("tcp", ":"+s.Config.GRPCPort)
+	listener, err := net.Listen(tcp, ":"+s.Config.GRPCPort)
 	if err != nil {
-		log.Fatal(err)
+		log2.Logger.Fatal("failed to listen to", zap.String(port, s.Config.GRPCPort), zap.Error(err))
 	}
 	s.HealthServer.SetServingStatus("go-grpc-service", healthv1.HealthCheckResponse_SERVING)
-	fmt.Print("grpc server started")
+	log2.Logger.Info("grpc server started")
 	if err := s.GrpcServer.Serve(listener); err != nil {
 		s.HealthServer.SetServingStatus("go-grpc-service", healthv1.HealthCheckResponse_NOT_SERVING)
-		log.Fatal(err)
+		log2.Logger.Fatal("failed to serve", zap.Error(err))
 	}
 
 }
