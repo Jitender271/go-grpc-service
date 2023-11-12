@@ -30,7 +30,7 @@ func NewServer(config *config.AppConfig) *Server {
 		grpc.ConnectionTimeout(config.GRPCConnectionTimeout),
 	)
 	healthServer := health.NewServer()
-	healthServer.SetServingStatus("health-grpc-service", healthv1.HealthCheckResponse_SERVING)
+	healthServer.SetServingStatus(grpcHealthService, healthv1.HealthCheckResponse_SERVING)
 	healthv1.RegisterHealthServer(grpcServer, healthServer)
 	return &Server{
 		Config:       config,

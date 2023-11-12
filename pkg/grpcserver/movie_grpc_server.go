@@ -3,8 +3,6 @@ package grpcserver
 import (
 	"context"
 	"errors"
-	"fmt"
-
 	"github.com/go-grpc-service/internal/config"
 	"github.com/go-grpc-service/internal/grpc"
 	"github.com/go-grpc-service/internal/models"
@@ -27,7 +25,6 @@ func NewGrpcServer(server *grpc.Server) *MovieGrpcServer {
 }
 
 func (m *MovieGrpcServer) CreateMovie(ctx context.Context, request *moviepb.MovieRequest) (*moviepb.MovieResponse, error) {
-	fmt.Print("ccp_grpc_server")
 	movie, err := m.MovieService.CreateMovie(ctx, request)
 	if err != nil {
 		return nil, err
