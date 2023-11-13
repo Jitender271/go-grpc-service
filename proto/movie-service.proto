@@ -32,10 +32,11 @@ message GetAllMoviesResponse{
 }
 
 message UpdateMovieRequest{
-    string movie = 1;
-    string genre = 2;
-    string desc = 3;
-    string rating = 4;
+    string movie_id = 1;
+    string movie = 2;
+    string genre = 3;
+    string desc = 4;
+    string rating = 5;
 }
 
 message UpdateMovieResponse{
