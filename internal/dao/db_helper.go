@@ -2,7 +2,6 @@ package dao
 
 import (
 	"context"
-	"fmt"
 	"github.com/go-grpc-service/internal/log"
 	"go.uber.org/zap"
 	"strings"
@@ -48,7 +47,6 @@ func insertMoviesInDb(ctx context.Context, session db.SessionWrapperService, mov
 
 func getMovieFromDb(ctx context.Context, session db.SessionWrapperService, movieName string) (*daomodels.Movies, error) {
 	var movies daomodels.Movies
-	fmt.Print("string movie name", movieName)
 	configTable := getTable(movieTableName, movieColumns, moviePartitionKeys, movieSortKeys)
 	query := session.Query(configTable.Get()).BindMap(map[string]interface{}{name: movieName})
 	err := query.GetRelease(ctx, &movies)

@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/go-grpc-service/internal/config"
 	"github.com/go-grpc-service/internal/dao"
 	daomodels "github.com/go-grpc-service/internal/dao/dao_models"
@@ -44,11 +43,11 @@ func (m *MovieServiceImpl) CreateMovie(ctx context.Context, request *moviepb.Mov
 	if isDuplicate {
 		return nil, errors.New(duplicateMovieError)
 	}
+
 	movie, err := m.movieDao.InsertMovie(ctx, getMovieModel(request))
 	if err != nil {
 		return nil, err
 	}
-	fmt.Print("movie dtails", movie)
 	return movie, nil
 }
 
@@ -96,6 +95,7 @@ func getMovieModel(request *moviepb.MovieRequest) *models.Movie {
 
 func getUpdatedMovieModel(request *moviepb.UpdateMovieRequest) *models.Movie {
 	return &models.Movie{
+		Id:     request.GetMovieId(),
 		Name:   request.GetMovie(),
 		Desc:   request.GetDesc(),
 		Genre:  request.GetGenre(),

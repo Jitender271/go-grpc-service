@@ -37,6 +37,14 @@ func GetSession(configs configs.DbConfigs) SessionWrapperService {
 		scyllaDbCluster.WriteTimeout = configs.DBWriteTimeout
 		scyllaDbCluster.Timeout = configs.DBReadTimeout
 		scyllaDbCluster.NumConns = configs.DBConnectionsPerHost
+		scyllaDbCluster.PoolConfig = gocql.PoolConfig{
+			HostSelectionPolicy: gocql.TokenAwareHostPolicy(gocql.RoundRobinHostPolicy()),
+		}
+		scyllaDbCluster.ReconnectionPolicy = &gocql.ConstantReconnectionPolicy{
+			MaxRetries: configs.DBReConnectionMaxRetries,
+			Interval:   configs.DBReConnectionInterval,
+		}
+		scyllaDbCluster.SocketKeepalive = configs.DBKeepAliveTime
 		scyllaDbCluster.Authenticator = gocql.PasswordAuthenticator{
 			Username: configs.DBUsername,
 			Password: configs.DBPassword,
