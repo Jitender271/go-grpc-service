@@ -38,8 +38,8 @@ This repository contains a microservice written in Go that utilizes gRPC for com
 2. Create the "movies" table:
    
    CREATE TABLE IF NOT EXISTS movies (
-    movie_id TEXT PRIMARY KEY,
-    name TEXT,
+    movie_id TEXT,
+    name TEXT PRIMARY KEY,
     genre TEXT,
     description TEXT,
     rating TEXT,
