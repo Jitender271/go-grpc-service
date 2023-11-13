@@ -3,6 +3,7 @@ package grpcserver
 import (
 	"context"
 	"errors"
+	"github.com/go-grpc-service/commons/constants"
 	"github.com/go-grpc-service/internal/config"
 	"github.com/go-grpc-service/internal/grpc"
 	"github.com/go-grpc-service/internal/models"
@@ -25,45 +26,50 @@ func NewGrpcServer(server *grpc.Server) *MovieGrpcServer {
 }
 
 func (m *MovieGrpcServer) CreateMovie(ctx context.Context, request *moviepb.MovieRequest) (*moviepb.MovieResponse, error) {
-	movie, err := m.MovieService.CreateMovie(ctx, request)
+	movieResponse, err := m.MovieService.CreateMovie(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	if movie == nil {
-		return nil, errors.New("err not captured but nil response recieved")
+	if movieResponse == nil {
+		return &moviepb.MovieResponse{
+			Status: moviepb.MovieStatus_FAILED,
+		}, nil
+	}
+	if movieResponse.Id == constants.EmptyString {
+		return nil, errors.New("err not captured but nil response received")
 	}
 
 	return &moviepb.MovieResponse{
-		MovieDetails: buildMovie(movie),
+		MovieDetails: buildMovie(movieResponse),
 		Status:       moviepb.MovieStatus_CREATED,
 	}, nil
 }
 
 func (m *MovieGrpcServer) GetMovie(ctx context.Context, request *moviepb.GetMovieRequest) (*moviepb.GetMovieResponse, error) {
-	movie, err := m.MovieService.GetMovie(ctx, request)
+	getMovieResponse, err := m.MovieService.GetMovie(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	if movie == nil {
-		return nil, errors.New("err not captured but nil response recieved")
+	if getMovieResponse == nil {
+		return nil, errors.New("err not captured but nil response received")
 	}
 
 	return &moviepb.GetMovieResponse{
-		MovieDetails: buildMovie(movie),
+		MovieDetails: buildMovie(getMovieResponse),
 	}, nil
 }
 
 func (m *MovieGrpcServer) GetAllMovies(ctx context.Context, request *moviepb.GetAllMoviesRequest) (*moviepb.GetAllMoviesResponse, error) {
-	movies, err := m.MovieService.GetAllMovies(ctx)
+	getAllMovies, err := m.MovieService.GetAllMovies(ctx)
 	if err != nil {
 		return nil, err
 	}
-	if movies == nil {
-		return nil, errors.New("err not captured but nil response recieved")
+	if getAllMovies == nil {
+		return nil, errors.New("err not captured but nil response received")
 	}
 
 	var movieList []*moviepb.MovieDetails
-	for _, movie := range movies {
+	for _, movie := range getAllMovies {
 		movieList = append(movieList, buildMovie(movie))
 	}
 	return &moviepb.GetAllMoviesResponse{
@@ -72,16 +78,19 @@ func (m *MovieGrpcServer) GetAllMovies(ctx context.Context, request *moviepb.Get
 }
 
 func (m *MovieGrpcServer) UpdateMovie(ctx context.Context, request *moviepb.UpdateMovieRequest) (*moviepb.UpdateMovieResponse, error) {
-	movie, err := m.MovieService.UpdateMovies(ctx, request)
+	updatedMovieResponse, err := m.MovieService.UpdateMovies(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	if movie == nil {
-		return nil, errors.New("err not captured but nil response received")
+
+	if updatedMovieResponse == nil {
+		return &moviepb.UpdateMovieResponse{
+			Status: moviepb.MovieStatus_FAILED,
+		}, nil
 	}
 
 	return &moviepb.UpdateMovieResponse{
-		MovieDetails: buildMovie(movie),
+		MovieDetails: buildMovie(updatedMovieResponse),
 		Status:       moviepb.MovieStatus_UPDATED,
 	}, nil
 }
