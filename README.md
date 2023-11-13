@@ -20,6 +20,8 @@ This repository contains a microservice written in Go that utilizes gRPC for com
    
 2. Install Dependencies
    ```bash
+   go mod vendor
+      or
    go mod tidy
 
 3. Compile Protocol Buffers:
