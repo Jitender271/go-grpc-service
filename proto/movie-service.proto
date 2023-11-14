@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option go_package = "moviepb/";
 import "proto/movie.proto";
+import "proto/google/api/annotations.proto";
 
 message MovieRequest{
     string movie = 1;
@@ -45,7 +46,12 @@ message UpdateMovieResponse{
 }
 
 service MoviePlatform{
-    rpc CreateMovie(MovieRequest) returns (MovieResponse);
+    rpc CreateMovie(MovieRequest) returns (MovieResponse) {
+        option (google.api.http) = {
+            post: "/api/V1/create/movie"
+            body:  "*"
+        };
+    }
     rpc GetMovie(GetMovieRequest) returns (GetMovieResponse);
     rpc GetAllMovies(GetAllMoviesRequest) returns (GetAllMoviesResponse);
     rpc UpdateMovie(UpdateMovieRequest) returns (UpdateMovieResponse);
