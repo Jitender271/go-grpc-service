@@ -52,7 +52,21 @@ service MoviePlatform{
             body:  "*"
         };
     }
-    rpc GetMovie(GetMovieRequest) returns (GetMovieResponse);
-    rpc GetAllMovies(GetAllMoviesRequest) returns (GetAllMoviesResponse);
-    rpc UpdateMovie(UpdateMovieRequest) returns (UpdateMovieResponse);
+    rpc GetMovie(GetMovieRequest) returns (GetMovieResponse) {
+        option (google.api.http) = {
+            post: "/api/V1/fetch/movie"
+            body:  "*"
+        };
+    }
+    rpc GetAllMovies(GetAllMoviesRequest) returns (GetAllMoviesResponse) {
+        option (google.api.http) = {
+            get: "/api/V1/get/all/movies"
+        };
+    }
+    rpc UpdateMovie(UpdateMovieRequest) returns (UpdateMovieResponse) {
+        option (google.api.http) = {
+            put: "/api/V1/update/movie"
+            body:  "*"
+        };
+    }
 }
