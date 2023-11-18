@@ -19,24 +19,38 @@ This repository contains a microservice written in Go that utilizes gRPC for com
    cd go-grpc-service
    
 2. Install Dependencies
+```bash
+go install \
+    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
+    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
+    google.golang.org/protobuf/cmd/protoc-gen-go \
+    google.golang.org/grpc/cmd/protoc-gen-go-grpc
+```
+
+   
    ```bash
    go mod vendor
       or
    go mod tidy
+```
 
 3. Compile Protocol Buffers:
-  protoc --go_out=. --go-grpc_out=. proto/movie.proto
+  ```bash
+protoc --proto_path= proto/*.proto --go_out=resources/ --go-grpc_out=resources/ --grpc-gateway_out=resources/
+```
 
 
 ## ScyllaDB Configuration
 
 1. Connect to your ScyllaDB instance(on Docker) and create the keyspace:
    
-  CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+  ```bash
+CREATE KEYSPACE IF NOT EXISTS bookmyshow WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
+```
 
 
 2. Create the "movies" table:
-   
+   ```bash
    CREATE TABLE IF NOT EXISTS movies (
     movie_id TEXT,
     name TEXT PRIMARY KEY,
@@ -44,6 +58,7 @@ This repository contains a microservice written in Go that utilizes gRPC for com
     description TEXT,
     rating TEXT,
     );
+   ```
 
 ## Running the Service
 
