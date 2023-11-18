@@ -5,6 +5,10 @@ import "time"
 type AppConfig struct {
 	LogLevel              string        `mapstructure:"LOG_LEVEL"`
 	GRPCPort              string        `mapstructure:"GRPC_PORT"`
+	ReverseProxyHttpPort  string        `mapstructure:"REVERSE_PROXY_PORT"`
+	HttpReadTimeout       time.Duration `mapstructure:"HTTP_READ_TIMEOUT"`
+	HttpWriteTimeout      time.Duration `mapstructure:"HTTP_WRITE_TIMEOUT"`
+	HttpIdleTimeout       time.Duration `mapstructure:"HTTP_IDLE_TIMEOUT"`
 	GRPCConnectionTimeout time.Duration `mapstructure:"GRPC_CONNECTION_TIMEOUT"`
 	DbConfigs             DbConfigs     `mapstructure:"DB_CONFIGS"`
 }
